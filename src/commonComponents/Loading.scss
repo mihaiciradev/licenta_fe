@@ -1,0 +1,12 @@
+.loadingContainer{
+    animation: 3s load linear infinite; 
+}
+
+@keyframes load{
+    from{
+        transform: rotateZ(0deg);
+    }
+    to{
+        transform: rotateZ(360deg);
+    }
+}

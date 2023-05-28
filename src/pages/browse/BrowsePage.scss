@@ -1,0 +1,147 @@
+@import "../../const/variables.scss";
+
+.browsePageContainer {
+
+    height: 100vh;
+
+    header {
+        background: $primary;
+        height: 7vh;
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        gap: 25px;
+        padding: 0 25px;
+
+        button {
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 5px;
+        }
+    }
+
+
+    .objects {
+        padding-top: 5vh;
+
+        &>div {
+            padding: 10px;
+            border-radius: 15px;
+            background: $primary;
+        }
+
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        gap: 2vw;
+
+        #objectTypesList,
+        #objectsList {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            flex-direction: column;
+
+            gap: 10px;
+
+            h3 {
+                color: white;
+                width: 100%;
+                padding-bottom: 10px;
+                text-align: center;
+                border-bottom: 2px solid white;
+                margin-bottom: 0;
+            }
+
+            button {
+                height: 30px;
+                width: 100%;
+                background: transparent;
+                border: 2px solid $secondary;
+                border-radius: 15px;
+                color: white;
+                font-weight: bold;
+                cursor: pointer;
+
+                &:hover {
+                    background: #555;
+                }
+            }
+        }
+
+        #objectTypesList {
+            width: 15vw;
+            height: 80vh;
+        }
+
+        #objectsList {
+            width: 12vw;
+            height: 70vh;
+            margin-top: 5vh;
+
+            input {
+                border-radius: 5px;
+                max-width: 100%;
+            }
+
+            #actual-list {
+                max-height: 80%;
+                overflow-y: auto;
+
+                button {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                /* width */
+                &::-webkit-scrollbar {
+                    width: 10px;
+                }
+
+                /* Track */
+                &::-webkit-scrollbar-track {
+                    background: #CECECE;
+                }
+
+                /* Handle */
+                &::-webkit-scrollbar-thumb {
+                    background: #888;
+                }
+
+                /* Handle on hover */
+                &::-webkit-scrollbar-thumb:hover {
+                    background: #555;
+                }
+
+                button {
+                    width: 90%;
+                    margin-bottom: 5px;
+                }
+            }
+
+            // #pagination {
+            //     color: white;
+            //     display: flex;
+            //     width: 100%;
+            //     align-items: center;
+            //     justify-content: space-evenly;
+
+            //     border-top: 2px solid white;
+
+            //     button {
+            //         background: transparent;
+            //         border: none;
+            //         color: white;
+            //         cursor: pointer;
+            //     }
+            // }
+        }
+
+        #objectPage {
+            margin-top: 5vh;
+            height: 70vh;
+            width: 60vw;
+        }
+    }
+}
