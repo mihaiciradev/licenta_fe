@@ -1,78 +1,166 @@
-import './BrowsePage.scss';
-import EmployerPage from './EmployerPage';
-
-const employee = {
-    name: "Ionel ionescu", //mandatory
-    role: "Solution architect", //mandatory
-    department: "Human resources",//mandatory
-    tasks: ["CS-23", "CS-153", "CS-53134"], //mandatory, can be empty
-    projects: ['caca'], //mandatory, can be empty
-    availability: "on-site",//mandatory
-    email: "mihai@ma-ta.com", //optional
-    linkedin: "mihai@ma-ta.com", //optional
-    phone: "+40 7noidoi", //optional
-    teams: "mihai@ma-ta.com" //optional
-}
+import "./BrowsePage.scss";
+import EmployeePage from "./EmployeePage";
+import ObjectList from "./ObjectList";
+import { useEffect, useState } from "react";
+import TaskPage from "./TaskPage";
+import { employees, tasks } from "../../database";
 
 function BrowsePage() {
-    return (
-        <div className="browsePageContainer">
+  const [page, setPage] = useState("");
+  const [subPage, setSubPage] = useState({
+    pageType: undefined,
+    data: undefined,
+  });
 
-            <header>
-                <button>text</button>
-                <button>text</button>
-                <button>text</button>
-            </header>
+  const [employeeList, setEmployeeList] = useState([]);
+  const [taskList, setTaskList] = useState([]);
 
-            <div className='objects'>
-                <div id="objectTypesList">
-                    <h3>Types</h3>
-                    <button>Tasks</button>
-                    <button>Employees</button>
-                </div>
+  useEffect(() => {
+    //fetch data from api
+    setEmployeeList(employees);
+    setTaskList(tasks);
+  }, []);
 
+  const changePage = (newPage) => {
+    //fetch data from api
 
-                <div id="objectsList">
-                    <h3>Employees</h3>
-                    <input placeholder='search by name' />
-                    <div id="actual-list">
-                        <button>Andrei Matei Jianu Kosovo</button>
-                        <button>Matei</button>
-                        <button>Andrei</button>
-                        <button>Matei</button>
-                        <button>Andrei</button>
-                        <button>Matei</button>
-                        <button>Andrei</button>
-                        <button>Matei</button>
-                        <button>Andrei</button>
-                        <button>Matei</button>
-                        <button>Andrei</button>
-                        <button>Matei</button>
-                        <button>Andrei</button>
-                        <button>Matei</button>
-                        <button>Mihnea</button>
-                    </div>
+    setPage(newPage);
+  };
 
+  const RenderObjectPageChildren = () => {
+    switch (page) {
+      case "Employees":
+        // return employees_example;
+        return employeeList.map((e) => (
+          <button
+            onClick={() => {
+              setSubPage({
+                pageType: "Employee",
+                data: e,
+              });
+            }}
+          >
+            {e.name}
+          </button>
+        ));
+      case "Tasks":
+        return taskList.map((t) => (
+          <button
+            onClick={() => {
+              setSubPage({
+                pageType: "Task",
+                data: t,
+              });
+            }}
+          >
+            {t.title}
+          </button>
+        ));
+      default:
+        return null;
+    }
+  };
 
-                    {/* <div id="pagination">
-                        <button> &lt; &lt; </button>
-                        <button> &lt; </button>
-                        <span>15</span>
-                        <button> &gt; </button>
-                        <button> &gt; &gt; </button>
-                    </div> */}
-                </div>
+  const RenderSubPage = () => {
+    if (!subPage.pageType) return null;
 
-                <div id="objectPage">
-                    <EmployerPage employee={employee} />
-                </div>
+    switch (subPage.pageType) {
+      case "Employee":
+        return <EmployeePage employee={subPage.data} />;
+      case "Task":
+        return <TaskPage task={subPage.data} />;
+      default:
+        return null;
+    }
+  };
 
-            </div>
+  //   const employees_example = [
+  //     <button
+  //       onClick={() => {
+  //         setSubPage({
+  //           pageType: "Employee",
+  //           data: employee,
+  //         });
+  //       }}
+  //     >
+  //       Andrei Matei Jianu Kosovo
+  //     </button>,
+  //     <button
+  //       onClick={() => {
+  //         setSubPage(employee);
+  //       }}
+  //     >
+  //       Matei
+  //     </button>,
+  //     <button
+  //       onClick={() => {
+  //         setSubPage(employee);
+  //       }}
+  //     >
+  //       Andrei
+  //     </button>,
+  //     <button
+  //       onClick={() => {
+  //         setSubPage(employee);
+  //       }}
+  //     >
+  //       Matei
+  //     </button>,
+  //     <button
+  //       onClick={() => {
+  //         setSubPage(employee);
+  //       }}
+  //     >
+  //       Andrei
+  //     </button>,
+  //     <button
+  //       onClick={() => {
+  //         setSubPage(employee);
+  //       }}
+  //     >
+  //       Matei
+  //     </button>,
+  //   ];
 
+  return (
+    <div className="browsePageContainer">
+      <header>
+        <button>text</button>
+        <button>text</button>
+        <button>text</button>
+      </header>
 
-
+      <div className="objects">
+        <div id="objectTypesList">
+          <h3>Pages</h3>
+          <button
+            onClick={() => {
+              changePage("Tasks");
+              setSubPage({ pageType: undefined });
+            }}
+          >
+            Tasks
+          </button>
+          <button
+            onClick={() => {
+              changePage("Employees");
+              setSubPage({ pageType: undefined });
+            }}
+          >
+            Employees
+          </button>
         </div>
-    );
+
+        <ObjectList title={page}>{RenderObjectPageChildren()}</ObjectList>
+
+        <div id="objectPage">
+          {/* <EmployeePage employee={employee} /> */}
+          {/* <TaskPage name="task 1" /> */}
+          <RenderSubPage />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default BrowsePage;
