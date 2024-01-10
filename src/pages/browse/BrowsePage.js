@@ -3,7 +3,9 @@ import EmployeePage from "./EmployeePage";
 import ObjectList from "./ObjectList";
 import { useEffect, useState } from "react";
 import TaskPage from "./TaskPage";
-import { employees, tasks } from "../../database";
+import { employees, projects, sprints, tasks } from "../../database";
+import SprintPage from "./SprintPage";
+import ProjectPage from "./ProjectPage";
 
 function BrowsePage() {
   const [page, setPage] = useState("");
@@ -14,11 +16,15 @@ function BrowsePage() {
 
   const [employeeList, setEmployeeList] = useState([]);
   const [taskList, setTaskList] = useState([]);
+  const [sprintList, setSprintList] = useState([]);
+  const [projectList, setProjectList] = useState([]);
 
   useEffect(() => {
     //fetch data from api
     setEmployeeList(employees);
     setTaskList(tasks);
+    setSprintList(sprints);
+    setProjectList(projects);
   }, []);
 
   const changePage = (newPage) => {
@@ -56,6 +62,32 @@ function BrowsePage() {
             {t.title}
           </button>
         ));
+      case "Sprints":
+        return sprintList.map((s) => (
+          <button
+            onClick={() => {
+              setSubPage({
+                pageType: "Sprint",
+                data: s,
+              });
+            }}
+          >
+            {s.title}
+          </button>
+        ));
+      case "Projects":
+        return projectList.map((p) => (
+          <button
+            onClick={() => {
+              setSubPage({
+                pageType: "Project",
+                data: p,
+              });
+            }}
+          >
+            {p.title}
+          </button>
+        ));
       default:
         return null;
     }
@@ -69,58 +101,14 @@ function BrowsePage() {
         return <EmployeePage employee={subPage.data} />;
       case "Task":
         return <TaskPage task={subPage.data} />;
+      case "Sprint":
+        return <SprintPage sprint={subPage.data} />;
+      case "Project":
+        return <ProjectPage project={subPage.data} />;
       default:
         return null;
     }
   };
-
-  //   const employees_example = [
-  //     <button
-  //       onClick={() => {
-  //         setSubPage({
-  //           pageType: "Employee",
-  //           data: employee,
-  //         });
-  //       }}
-  //     >
-  //       Andrei Matei Jianu Kosovo
-  //     </button>,
-  //     <button
-  //       onClick={() => {
-  //         setSubPage(employee);
-  //       }}
-  //     >
-  //       Matei
-  //     </button>,
-  //     <button
-  //       onClick={() => {
-  //         setSubPage(employee);
-  //       }}
-  //     >
-  //       Andrei
-  //     </button>,
-  //     <button
-  //       onClick={() => {
-  //         setSubPage(employee);
-  //       }}
-  //     >
-  //       Matei
-  //     </button>,
-  //     <button
-  //       onClick={() => {
-  //         setSubPage(employee);
-  //       }}
-  //     >
-  //       Andrei
-  //     </button>,
-  //     <button
-  //       onClick={() => {
-  //         setSubPage(employee);
-  //       }}
-  //     >
-  //       Matei
-  //     </button>,
-  //   ];
 
   return (
     <div className="browsePageContainer">
@@ -148,6 +136,24 @@ function BrowsePage() {
             }}
           >
             Employees
+          </button>
+
+          <button
+            onClick={() => {
+              changePage("Sprints");
+              setSubPage({ pageType: undefined });
+            }}
+          >
+            Sprints
+          </button>
+
+          <button
+            onClick={() => {
+              changePage("Projects");
+              setSubPage({ pageType: undefined });
+            }}
+          >
+            Projects
           </button>
         </div>
 

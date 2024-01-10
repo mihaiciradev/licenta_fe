@@ -19,6 +19,39 @@ export const tasks = [
   },
 ];
 
+export const projects = [
+  {
+    title: "project 1",
+    status: "in progress",
+    team: "team Blue",
+    description: "sum description xD",
+  },
+
+  {
+    title: "project 2",
+    status: "done",
+    team: "team Red",
+    description: "sum description lol",
+  },
+];
+
+export const sprints = [
+  {
+    title: "sprint 1",
+    status: "in progress",
+    project: "project 1",
+    team: "team Blue",
+    tasks: [tasks[0].title, tasks[1].title],
+  },
+  {
+    title: "sprint 2",
+    status: "done",
+    project: "project 1",
+    team: "team Red",
+    tasks: [tasks[1].title],
+  },
+];
+
 export const employees = [
   {
     name: "Ionel ionescu", //mandatory
